@@ -1,6 +1,6 @@
 # Gadgetron reconstruction
 ### Data preparation
-* Download the 2D fully-sampled GRE example data from the `example_data` folder of this repository: click [here](https://github.com/pulseq/ISMRM-2025-Surfing-School-Hands-On-Open-Source-MR/tree/main/offline_open_source_data_reconstruction/tutorials/example_data). Place the GRE data in the this `gadgetron_recon` folder.
+* Download the 2D fully-sampled GRE example data from the `example_data` folder of this repository: click [here](https://github.com/pulseq/ISMRM-2025-Surfing-School-Hands-On-Open-Source-MR/tree/main/offline_open_source_data_reconstruction/tutorials/example_data). Place the GRE data in this `gadgetron_recon` folder.
 * Download the ISMRMRD software from [here](https://github.com/ismrmrd/ismrmrd) and add its folder and sub-folders to MATLAB's path.
 * Run the `build_ismrmrd_data.m` script to convert the GRE data to ISMRMRD data.
 ### Gadgetron software installation (for more details, visit [here](https://gadgetron.readthedocs.io/en/latest/using.html))
