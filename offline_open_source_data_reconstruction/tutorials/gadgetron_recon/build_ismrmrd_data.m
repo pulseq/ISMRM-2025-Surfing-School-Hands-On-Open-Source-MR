@@ -10,7 +10,7 @@ addpath(genpath(fullfile(pwd, 'ismrmrd'))) ;
 %% Load the file from a dir
 % twix_obj = mapVBVD(data_file_path) ;
 % data = twix_obj{end}.image.unsorted() ;
-load data.mat ;
+load gre2d_rawdata.mat ;
 %% Generating a simple ISMRMRD data set
 
 % This is an example of how to construct a dataset from synthetic data
@@ -27,9 +27,10 @@ end
 dset = ismrmrd.Dataset(filename);
 
 % Synthesize the object
-nX = size(data, 1) ;
-nCoils = size(data, 2) ;
-nY = size(data, 3) ;
+nX = size(gre2d_rawdata, 1) ;
+nY = size(gre2d_rawdata, 2) ;
+nCoils = size(gre2d_rawdata, 3) ;
+
 nReps = 1 ;
 
 % It is very slow to append one acquisition at a time, so we're going
@@ -70,7 +71,7 @@ for rep = 1:nReps
         end
         
         % fill the data
-        acqblock.data{acqno} = squeeze(data(:,:,acqno));
+        acqblock.data{acqno} = squeeze(gre2d_rawdata(:,acqno,:));
     end
 
     % Append the acquisition block
@@ -100,19 +101,19 @@ header.encoding.trajectory = 'cartesian';
 header.encoding.encodedSpace.fieldOfView_mm.x = 256;
 header.encoding.encodedSpace.fieldOfView_mm.y = 256;
 header.encoding.encodedSpace.fieldOfView_mm.z = 5;
-header.encoding.encodedSpace.matrixSize.x = size(data,1);
-header.encoding.encodedSpace.matrixSize.y = size(data,3);
+header.encoding.encodedSpace.matrixSize.x = nX;
+header.encoding.encodedSpace.matrixSize.y = nY;
 header.encoding.encodedSpace.matrixSize.z = 1;
 % Recon Space
 % (in this case same as encoding space)
 header.encoding.reconSpace = header.encoding.encodedSpace;
 % Encoding Limits
 header.encoding.encodingLimits.kspace_encoding_step_0.minimum = 0;
-header.encoding.encodingLimits.kspace_encoding_step_0.maximum = size(data,1)-1;
-header.encoding.encodingLimits.kspace_encoding_step_0.center = floor(size(data,1)/2);
+header.encoding.encodingLimits.kspace_encoding_step_0.maximum = nX-1;
+header.encoding.encodingLimits.kspace_encoding_step_0.center = floor(nX/2);
 header.encoding.encodingLimits.kspace_encoding_step_1.minimum = 0;
-header.encoding.encodingLimits.kspace_encoding_step_1.maximum = size(data,3)-1;
-header.encoding.encodingLimits.kspace_encoding_step_1.center = floor(size(data,3)/2);
+header.encoding.encodingLimits.kspace_encoding_step_1.maximum = nY-1;
+header.encoding.encodingLimits.kspace_encoding_step_1.center = floor(nY/2);
 header.encoding.encodingLimits.repetition.minimum = 0;
 header.encoding.encodingLimits.repetition.maximum = nReps-1;
 header.encoding.encodingLimits.repetition.center = 0;
